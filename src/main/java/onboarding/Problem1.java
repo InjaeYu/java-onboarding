@@ -9,6 +9,10 @@ class Problem1 {
         int pobiMax = maxResult(pobi);
         int crongMax = maxResult(crong);
 
+        if(pobiMax == -1 || crongMax == -1) {
+            return -1;
+        }
+
         if(pobiMax > crongMax) {
             answer = 1;
         } else if (pobiMax < crongMax) {
@@ -22,7 +26,10 @@ class Problem1 {
 
     private static int maxResult(List<Integer> list) {
         int max = 0;
-        // TODO: 예외사항에 대한 처리 필요
+
+        if(exceptionCheck(list)) {
+            return -1;
+        }
 
         for(Integer i : list) {
             int sum = Stream.of(String.valueOf(i).split("")).mapToInt(Integer::parseInt).sum();
@@ -33,5 +40,35 @@ class Problem1 {
             }
         }
         return max;
+    }
+
+    private static boolean exceptionCheck(List<Integer> list) {
+        int minPage = 1, maxPage = 400;
+        if(list.size() < 2) {
+            return true;
+        }
+
+        for(int i = 1; i < list.size(); i++) {
+            Integer right = list.get(i);
+            Integer left = list.get(i - 1);
+
+            if(left >= right) {
+                return true;
+            }
+
+            if(left <= minPage) {
+                return true;
+            }
+
+            if(right >= maxPage) {
+                return true;
+            }
+
+            if(right - left != 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
