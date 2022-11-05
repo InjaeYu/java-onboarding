@@ -44,7 +44,7 @@ class Problem1 {
 
     private static boolean exceptionCheck(List<Integer> list) {
         int minPage = 1, maxPage = 400;
-        if(list.size() < 2) {
+        if(list.size() != 2) {
             return true;
         }
 
@@ -52,7 +52,7 @@ class Problem1 {
             Integer right = list.get(i);
             Integer left = list.get(i - 1);
 
-            if(left >= right) {
+            if(left % 2 != 1 || right % 2 != 0) {
                 return true;
             }
 
