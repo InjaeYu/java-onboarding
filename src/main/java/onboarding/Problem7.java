@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Problem7 {
-    private static Map<String, Integer> friendsPointMap = new HashMap<>();
+    private static final Map<String, Integer> friendsPointMap = new HashMap<>();
 
     public static List<String> solution(String user, List<List<String>> friends, List<String> visitors) {
         List<String> answer = new ArrayList<>();
@@ -12,16 +12,38 @@ public class Problem7 {
         friendsPoint(user, friends);
         visitorsPoint(visitors);
 
-        System.out.println(friendsPointMap.toString());
+        List<String> keyList = new ArrayList<>(friendsPointMap.keySet());
+        keyList.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int com = friendsPointMap.get(o2).compareTo(friendsPointMap.get(o1));
+                if(com == 0) {
+                    return o1.compareTo(o2);
+                } else {
+                    return com;
+                }
+            }
+        });
+
+        answer = keyList.subList(0, 5);
+
+        for (String s : friendsFilter(user, friends)) {
+            answer.remove(s);
+        }
+
         return answer;
     }
 
-    private static void friendsPoint(String user, List<List<String>> friends) {
-        List<String> friendsList = friends.stream()
+    private static List<String> friendsFilter(String user, List<List<String>> friends) {
+        return friends.stream()
                 .filter(o -> o.contains(user))
                 .flatMap(Collection::stream)
                 .filter(o -> !o.equals(user))
                 .collect(Collectors.toList());
+    }
+
+    private static void friendsPoint(String user, List<List<String>> friends) {
+        List<String> friendsList = friendsFilter(user, friends);
         List<List<String>> tempList = friends.stream().filter(o -> !o.contains(user)).collect(Collectors.toList());
 
         for (String s : friendsList) {
@@ -37,6 +59,8 @@ public class Problem7 {
     }
 
     private static void visitorsPoint(List<String> visitors) {
-        visitors.stream().forEach(k -> friendsPointMap.put(k, friendsPointMap.getOrDefault(k, 0) + 1));
+        for (String k : visitors) {
+            friendsPointMap.put(k, friendsPointMap.getOrDefault(k, 0) + 1);
+        }
     }
 }
