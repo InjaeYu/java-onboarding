@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 public class Problem2 {
     public static String solution(String cryptogram) {
         int count = 0;
-        boolean reverse = false;
         List<Character> charList = cryptogram.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
         Character base = charList.get(0);
 
@@ -16,13 +15,9 @@ public class Problem2 {
                 charList.remove(i);
             } else {
                 if (count == 0) {
-                    if (reverse) {
-                        reverse = false;
-                    }
                     base = charList.get(i++);
                 } else {
                     count = 0;
-                    reverse = true;
                     charList.remove(--i);
                     base = charList.get(i - 1);
                 }
