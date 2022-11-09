@@ -11,6 +11,7 @@ public class Problem6 {
         Map<String, Integer> checkMap = new HashMap<>();
         for(String s : nameArr) {
             if(s.length() < 2) continue;
+            Set<String> tempSet = new HashSet<>();
 
 //            for(int i = 2; i <= s.length(); i++) {
 //                for(int j = 0; j <= s.length() - i; j++) {
@@ -20,6 +21,10 @@ public class Problem6 {
 //            }
             for(int j = 0; j <= s.length() - 2; j++) {
                 String key = s.substring(j, j + 2);
+                tempSet.add(key);
+            }
+
+            for(String key : tempSet) {
                 checkMap.put(key, checkMap.getOrDefault(key, 0) + 1);
             }
         }
