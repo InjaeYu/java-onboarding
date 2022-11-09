@@ -31,16 +31,13 @@ public class Problem6 {
 
         checkMap.entrySet().removeIf(o -> o.getValue() == 1);
         for(String k : checkMap.keySet()) {
-            List<Integer> removeIndex = new ArrayList<>();
-            for (int i = 0; i < tempForms.size(); i++) {
+            for (int i = 0; i < tempForms.size();) {
                 if (tempForms.get(i).get(1).contains(k)) {
                     result.add(tempForms.get(i).get(0));
-                    removeIndex.add(i);
+                    tempForms.remove(i);
+                } else {
+                    i += 1;
                 }
-            }
-            removeIndex.sort(Comparator.reverseOrder());
-            for(Integer i : removeIndex) {
-                tempForms.remove((int)i);
             }
         }
 
