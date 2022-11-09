@@ -13,6 +13,11 @@ public class Problem7 {
         visitorsPoint(visitors);
 
         List<String> keyList = new ArrayList<>(friendsPointMap.keySet());
+
+        for (String s : friendsFilter(user, friends)) {
+            keyList.remove(s);
+        }
+
         keyList.sort(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -25,11 +30,7 @@ public class Problem7 {
             }
         });
 
-        answer = keyList.subList(0, 5);
-
-        for (String s : friendsFilter(user, friends)) {
-            answer.remove(s);
-        }
+        answer = keyList.subList(0, Math.min(keyList.size(), 5));
 
         return answer;
     }
